@@ -12,7 +12,7 @@ const ServiceDetails = () => {
     const [service]=useServiceDetail(serviceId);
     const [user]=useAuthState(auth);
     const [quantity,setQuantity]=useState(0)
-    console.log(service)
+    // console.log(service)
     
     const handlePlaceOrder = event =>{
         event.preventDefault();
@@ -36,8 +36,9 @@ const ServiceDetails = () => {
         if(parseInt(service.quantity)===0){
             return toast.error('Stock out')
         }
-        const orderQuantity=parseInt(event.target.quantity.value);
+        const orderQuantity=parseInt(event.target.available.value);
         const newQuantity=parseInt(service.quantity)-orderQuantity;
+        console.log(newQuantity)
 
         const updateProduct={newQuantity}
 
@@ -50,6 +51,7 @@ const ServiceDetails = () => {
         })
         .then(res=>res.json())
         .then(data=>{
+            console.log('success',data)
             setQuantity(newQuantity)
         })
     }

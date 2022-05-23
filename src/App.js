@@ -5,6 +5,7 @@ import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import { ToastContainer } from 'react-toastify';
 import ServiceDetails from './Pages/Purchase/ServiceDetails';
+import RequireAuth from './Pages/Shared/RequireAuth';
 
 function App() {
   return (
@@ -12,7 +13,11 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="service/:serviceId" element={<ServiceDetails/>}/>
+        <Route path="service/:serviceId" element={
+        <RequireAuth>
+          <ServiceDetails/>
+        </RequireAuth>
+        }/>
         {/* <Route path="about" element={<About />} /> */}
         <Route path="login" element={<Login />} />
       </Routes> 
