@@ -4,6 +4,7 @@ import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Loading from '../Shared/Loading';
+import useToken from '../Hooks/useToken';
 
 
 const LoginPage = () => {
@@ -17,17 +18,18 @@ const LoginPage = () => {
         error,
     ] = useSignInWithEmailAndPassword(auth);
 
+    const [token] = useToken(user || gUser);
+
     let signInError;
     const navigate = useNavigate();
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
 
     useEffect( () =>{
-        navigate(from, { replace: true });
-        // if (token) {
-        //     // navigate(from, { replace: true });
-        // }
-    }, [from,navigate])
+        if (token) {
+            navigate(from, { replace: true });
+        }
+    }, [token,from,navigate])
 
     if (loading || gLoading) {
         return <Loading></Loading>
@@ -43,7 +45,7 @@ const LoginPage = () => {
 
     return (
         <div className="form-container sign-in-container">
-                <form className="form" action="#">
+                <form className="form" onSubmit={handleSubmit(onSubmit)}>
                     <h1 className="form-title">Welcome Back!</h1>
 
                     <div>
@@ -82,14 +84,15 @@ const LoginPage = () => {
                                 {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
                             </label>
                     </div>
-                    {signInError}
+                    {/* {signInError} */}
                     <button  className="form-button">sign in</button>
                     <a className="find-password" href="#">Forgot Password</a>
-                </form>
-                <button
+                    <button
                         onClick={() => signInWithGoogle()}
-                        className="btn btn-outline"
+                        className="form-button"
                     >Continue with Google</button>
+                </form>
+                
             </div>
     );
 };

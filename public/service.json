@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Motherboard",
+        "description": "The motherboard is the main board that is screwed directly inside the computer case. All other cards and everything else plugs directly into the motherboard, hence its name.",
+        "img": "computer parts/part1.avif",
+        "minimum-quantity":20,
+        "available": 150
+    },
+    {
+        "name": "CPU",
+        "description": "The CPU is basically like the brain of a computer. It processes all the information on a computational level.It takes information from the RAM and processes it to perform the tasks required by the computer.",
+        "img": "computer parts/part2.avif",
+        "minimum-quantity":20,
+        "available": 250
+    },
+    {
+        "name": "Memory",
+        "description": "The graphics processing unit, or GPU, has become one of the most important types of computing technology, both for personal and business computing. Designed for parallel processing, the GPU is used in a wide range of applications, including graphics and video rendering.",
+        "img":"computer parts/part3.avif",
+        "minimum-quantity":20,
+        "available": 350
+    },
+    {
+        "name": " Hard Drive or Solid State Drive",
+        "description": "A hard drive is found in most computers. It’s usually a mechanical drive that stores all the data.Apart from storing data, it can also be used as a boot drive to run the operating system from it.",
+        "img": "computer parts/part4.avif",
+        "minimum-quantity":20,
+        "available": 450
+    },
+    {
+        "name": "Graphics Card",
+        "description": "A graphics card processes the data from the motherboard and sends the appropriate information to the monitor for it to be displayed.It can do so using an HDMI, DisplayPort, DVI, or VGA connector.A graphics card can also be referred to as a video card or a display card.",
+        "img": "computer parts/part5.avif",
+        "minimum-quantity":20,
+        "available": 550
+    }
+    
+]
