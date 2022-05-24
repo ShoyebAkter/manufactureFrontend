@@ -84,7 +84,7 @@ const LoginPage = () => {
                                 {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
                             </label>
                     </div>
-                    {/* {signInError} */}
+                    {signInError}
                     <button  className="form-button">sign in</button>
                     <a className="find-password" href="#">Forgot Password</a>
                     <button

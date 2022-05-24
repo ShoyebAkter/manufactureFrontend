@@ -6,6 +6,7 @@ import Login from './Pages/Login/Login';
 import { ToastContainer } from 'react-toastify';
 import ServiceDetails from './Pages/Purchase/ServiceDetails';
 import RequireAuth from './Pages/Shared/RequireAuth';
+import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import AddReview from './Pages/Dashboard/AddReview';
 import MyProfile from './Pages/Dashboard/MyProfile';
@@ -35,7 +36,7 @@ function App() {
           <Route path="orders" element={<RequireAdmin><ManageAllOrders></ManageAllOrders></RequireAdmin>}></Route>
           <Route path="addproduct" element={<RequireAdmin><AddProduct></AddProduct></RequireAdmin>}></Route>
           <Route path="manageproduct" element={<RequireAdmin><ManageProducts></ManageProducts></RequireAdmin>}></Route>
-          <Route path="makeadmin" element={<MakeAdmin></MakeAdmin>}></Route>
+          <Route path="makeadmin" element={<RequireAdmin><MakeAdmin></MakeAdmin></RequireAdmin>}></Route>
         </Route>
         <Route path="login" element={<Login />} />
       </Routes> 

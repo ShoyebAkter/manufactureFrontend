@@ -9,9 +9,9 @@ const MakeAdmin = () => {
         headers:{
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
-    }).then(res => res.json()));
+    })
+    .then(res => res.json()));
     console.log(users)
-
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -24,8 +24,8 @@ const MakeAdmin = () => {
                     <tr>
                         <th></th>
                         <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
+                        <th>Make Admin</th>
+                        <th>Delete User</th>
                     </tr>
                 </thead>
                 <tbody>
