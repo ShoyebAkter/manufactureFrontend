@@ -18,7 +18,7 @@ const ManageProducts = () => {
     }
     return (
         <div>
-            <h2 className="text-2xl">Manage Doctors: {products.length}</h2>
+            <h2 className="text-2xl">Manage Products: {products.length}</h2>
             <div class="overflow-x-auto">
                 <table class="table w-full">
                     <thead>
