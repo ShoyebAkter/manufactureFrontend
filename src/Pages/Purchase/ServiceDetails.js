@@ -6,62 +6,73 @@ import auth from '../../firebase.init';
 import axios from 'axios';
 import useServiceDetail from '../Hooks/useServiceDetail';
 import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
+import Loading from '../Shared/Loading';
 
 const ServiceDetails = () => {
     const {serviceId}=useParams();
-    const [service]=useServiceDetail(serviceId);
     const [user]=useAuthState(auth);
-    const [quantity,setQuantity]=useState(0)
-    // console.log(service)
+    const[quantity,setQuantity]=useState(0);
+
+    useEffect(()=>{
+        fetch(`http://localhost:5000/service/${serviceId}`)
+        .then(res=>res.json())
+        .then(data=>setQuantity(data.quantity))
+    },[quantity])
+
+    const { data: service, isLoading, refetch } = useQuery('available', () => fetch(`http://localhost:5000/service/${serviceId}`)
+        .then(res => res.json()))
     
-    const handlePlaceOrder = event =>{
-        event.preventDefault();
-        const order = {
-            email:user.email,
-            service: service.name,
-            serviceId: serviceId,
-            address: event.target.address.value,
-            phone: event.target.phone.value,
-            quantity:event.target.quantity.value
+        if(isLoading){
+            return <Loading></Loading>
         }
-        axios.post('http://localhost:5000/order', order)
-        .then(response =>{
-            const {data} = response;
-            console.log(data)
+    const handleSubmit=(event)=>{
+        event.preventDefault();
+        const orderQuantity=parseInt(event.target.orderquantity.value);
+        const minimumQuantity=parseInt(service.minimum_quantity);
+        if(orderQuantity>minimumQuantity){
+            toast.error('cannot oder less than minimum quantity')
+        }
+        let available=parseInt(service.quantity);
+        // console.log(available)
+        const remaining=available-orderQuantity;
+        const updateproduct={remaining};
+        // console.log(service)
+        const order={
+            orderId:serviceId,
+            name:service.name,
+            orderQuantity,
+            email:user.email,
+            userName:user.displayName
+        }
+
+        axios.post('http://localhost:5000/order',order)
+        .then(res=>{
+            const {data}=res;
             if(data.insertedId){
-                toast('Your order is booked!!!');
+                toast('Order done');
                 event.target.reset();
             }
         })
-        if(parseInt(service.quantity)===0){
-            return toast.error('Stock out')
-        }
-        const orderQuantity=parseInt(event.target.available.value);
-        const newQuantity=parseInt(service.quantity)-orderQuantity;
-        console.log(newQuantity)
-
-        const updateProduct={newQuantity}
-
         fetch(`http://localhost:5000/service/${serviceId}`,{
             method:'PUT',
             headers:{
                 'content-type':'application/json'
             },
-            body: JSON.stringify(updateProduct)
+            body: JSON.stringify(updateproduct)
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log('success',data)
-            setQuantity(newQuantity)
+            setQuantity(remaining)
         })
+        
     }
-
     
 
     return (
         <div className='w-50 mx-auto'>
             <h2>Please Order: {service.name}</h2>
-            <form onSubmit={handlePlaceOrder}>
+            <form onSubmit={handleSubmit}>
                 <input className='w-100 mb-2' type="text" value={user?.displayName} name="name" placeholder='name' required readOnly disabled/>
                 <br />
                 <input className='w-100 mb-2' type="email" value={user?.email} name="email" placeholder='email' required readOnly disabled />
@@ -70,11 +81,13 @@ const ServiceDetails = () => {
                 <br />
                 <input className='w-100 mb-2' type="text" value={service.quantity} name="available" placeholder='available' required readOnly />
                 <br />
+                <input className='w-100 mb-2' type="text" value={service.minimum_quantity} name="minimum_quantity" placeholder='minimum_quantity' required readOnly />
+                <br />
                 <input className='w-100 mb-2' type="text" name="address" placeholder='address' autoComplete='off' required />
                 <br />
                 <input className='w-100 mb-2' type="text" name="phone" placeholder='phone' required />
                 <br />
-                <input className='w-100 mb-2' type="text" name="quantity" placeholder='quantity' required />
+                <input className='w-100 mb-2' type="text" name="orderquantity" placeholder='quantity' required />
                 <br />
                 <input className='btn btn-primary' type="submit" value="Place Order" />
             </form>

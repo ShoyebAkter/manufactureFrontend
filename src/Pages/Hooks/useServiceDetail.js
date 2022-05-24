@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import Loading from '../Shared/Loading';
 
 const useServiceDetail = (serviceID) => {
-    const [service,setService]=useState({});
 
-useEffect(()=>{
-    const url=`http://localhost:5000/service/${serviceID}`;
-    
-    fetch(url)
-    .then(res=>res.json())
-    .then(data=>setService(data))
-},[serviceID]);
-return [service];
+    const { data: service, isLoading, refetch } = useQuery('available', () => fetch(`http://localhost:5000/service/${serviceID}`)
+        .then(res => res.json()))
+
+        if(isLoading){
+            return <Loading></Loading>
+        }
+
+return [service,refetch];
 }
 
 
