@@ -16,6 +16,8 @@ import MyOrders from './Pages/Dashboard/MyOrders';
 import ManageAllOrders from './Pages/Dashboard/ManageAllOrders';
 import ManageProducts from './Pages/Dashboard/ManageProducts';
 import RequireAdmin from './Pages/Shared/RequireAdmin';
+import Blogs from '../src/Pages/Blogs/Blogs'
+import MyPortfolio from './Pages/MyPortfolio/MyPortfolio';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/portfolio" element={<MyPortfolio />} />
         <Route path="service/:serviceId" element={
         <RequireAuth>
           <ServiceDetails/>
