@@ -28,7 +28,7 @@ const AddProduct = () => {
                     quantity: data.quantity,
                     img: img
                 }
-                // send to your database 
+                // sending in my database 
                 fetch('http://localhost:5000/service', {
                     method: 'POST',
                     headers: {

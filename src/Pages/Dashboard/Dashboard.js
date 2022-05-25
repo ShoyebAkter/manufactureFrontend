@@ -20,7 +20,7 @@ const Dashboard = () => {
                 <ul class="menu p-4 overflow-y-auto w-48 bg-base-100 text-base-content">
 
                     {!admin && <>
-                        <li><Link to="/dashboard">My Orders</Link></li>
+                        <li><Link to="/dashboard/myorders">My Orders</Link></li>
                     <li><Link to="/dashboard/review">Add a Review</Link></li>
                     </>
                     }
@@ -29,6 +29,7 @@ const Dashboard = () => {
                     { admin && <>
                         
                         <li><Link to="/dashboard/addproduct">Add a Product</Link></li>
+                        <li><Link to="/dashboard/orders">Manage Orders</Link></li>
                         <li><Link to="/dashboard/manageproduct">Manage Products</Link></li>
                         <li><Link to="/dashboard/makeadmin">Make Admin</Link></li>
                     </>}
