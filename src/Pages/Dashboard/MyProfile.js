@@ -18,12 +18,16 @@ const MyProfile = () => {
         }
     })
     .then(res => res.json()));
+    console.log(myProfile)
 
     if (isLoading) {
         return <Loading></Loading>
     }
 
-    const handleUpdate=()=>{
+    const handleUpdate=(event)=>{
+        event.preventDefault();
+
+        event.reset();
         
     }
 
@@ -58,11 +62,11 @@ const MyProfile = () => {
                 <input className='w-100 mb-2 text-base-300' type="email" value={user?.email} name="email" placeholder='email' required readOnly disabled />
                 <br />
                 
-                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.education} name="education" placeholder='education' autoComplete='off' required />
+                <input className='w-100 mb-2 text-base-300' type="text"  name="education" placeholder='education' autoComplete='off' required />
                 <br />
-                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.location} name="location" placeholder='location' required />
+                <input className='w-100 mb-2 text-base-300' type="text"  name="location" placeholder='location' required />
                 <br />
-                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.phonenumber} name="phonenumber" placeholder='phonenumber' required />
+                <input className='w-100 mb-2 text-base-300' type="text" name="phonenumber" placeholder='phonenumber' required />
                 <br />
                 <input className='btn btn-primary' type="submit" value="Add" />
                 
