@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
+import Loading from '../Shared/Loading';
+import AllOrderRow from './AllOrderRow';
+import DelecteConfirmOrder from './DelecteConfirmOrder';
 
 const ManageAllOrders = () => {
+    const [deletingOrder, setDeletingOrder] = useState(null);
+
     const [user]=useAuthState(auth)
-    const[allOrders,setAllOrders]=useState([]);
     const [pending,setPending]=useState(true);
 
-    useEffect(()=>{
-        fetch('http://localhost:5000/allorder')
-        .then(res=>res.json())
-        .then(data=>setAllOrders(data))
-    },[])
+    const { data: allOrders, isLoading, refetch } = useQuery('allOrders', () => fetch(`http://localhost:5000/allorder`, {
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    }).then(res => res.json()));
+
+    if (isLoading) {
+        return <Loading></Loading>
+    }
+
+    
     return (
         <div>
             <h2>Total Orders: {allOrders.length}</h2>
@@ -31,30 +42,25 @@ const ManageAllOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            allOrders.map((a, index) => <tr key={a._id}>
-                                <th>{index + 1}</th>
-                                <td>{a.userName}</td>
-                                <td>{a.orderQuantity}</td>
-                                <td>{a.email}</td>
-                                <td>{a.name}</td>
-                                <td>
-                                    {(!a.paid) && <p className='text-primary'>Unpaid</p>}
-                                    {(a.paid) && <div>
-                                        <p><span className='text-success'>Paid</span></p>
-                                    </div>}
-                                </td>
-                                <td>
-                                    
-                                       <button>Pending</button>
-                                    
-                                </td>
-                            </tr>)
+                            allOrders.map((order, index) => <AllOrderRow
+                            key={order._key}
+                                    order={order}
+                                    index={index}
+                                    refetch={refetch}
+                                    setDeletingOrder={setDeletingOrder}>
+
+                            </AllOrderRow>)
                         }
 
 
                     </tbody>
                 </table>
             </div>
+            {deletingOrder && <DelecteConfirmOrder
+                deletingOrder={deletingOrder}
+                refetch={refetch}
+                setDeletingOrder={setDeletingOrder}
+            ></DelecteConfirmOrder>}
         </div>
     );
 };
