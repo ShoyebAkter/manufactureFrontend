@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 import DeleteConfirmModal from './DeleteConfirmModal';
+import DeleteProductModal from './DeleteProductModal';
 import Product from './Product';
 
 const ManageProducts = () => {
@@ -43,11 +44,11 @@ const ManageProducts = () => {
                     </tbody>
                 </table>
             </div>
-            {deletingProduct && <DeleteConfirmModal
+            {deletingProduct && <DeleteProductModal
                 deletingProduct={deletingProduct}
                 refetch={refetch}
                 setDeletingProduct={setDeletingProduct}
-            ></DeleteConfirmModal>}
+            ></DeleteProductModal>}
         </div>
     );
 };

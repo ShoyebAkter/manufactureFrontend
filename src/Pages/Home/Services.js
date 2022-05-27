@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-
+import './Services.css'
 import Service from './Service';
 
 
@@ -21,7 +21,7 @@ const Services = () => {
                 <h2 className='text-4xl'>Tools We Provide</h2>
             </div>
             
-            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
+            <div className=' wrapper'>
                 {
                     services.map(service =>
                     <Service
