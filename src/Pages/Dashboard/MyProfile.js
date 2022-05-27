@@ -23,6 +23,11 @@ const MyProfile = () => {
         return <Loading></Loading>
     }
 
+    const handleUpdate=()=>{
+        
+    }
+
+
     const handleSubmit=(event)=>{
         event.preventDefault();
 
@@ -48,21 +53,21 @@ const MyProfile = () => {
         <div>
             <h2>Profile of : {myProfile.userName}</h2>
             <form onSubmit={handleSubmit}>
-                <input className='w-100 mb-2' type="text" value={user?.displayName} name="name" placeholder='name' required readOnly disabled/>
+                <input className='w-100 mb-2 text-base-300' type="text" value={user?.displayName} name="name" placeholder='name' required readOnly disabled/>
                 <br />
-                <input className='w-100 mb-2' type="email" value={user?.email} name="email" placeholder='email' required readOnly disabled />
+                <input className='w-100 mb-2 text-base-300' type="email" value={user?.email} name="email" placeholder='email' required readOnly disabled />
                 <br />
                 
-                <input className='w-100 mb-2' type="text" value={myProfile.education} name="education" placeholder='education' autoComplete='off' required />
+                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.education} name="education" placeholder='education' autoComplete='off' required />
                 <br />
-                <input className='w-100 mb-2' type="text" value={myProfile.location} name="location" placeholder='location' required />
+                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.location} name="location" placeholder='location' required />
                 <br />
-                <input className='w-100 mb-2' type="text" value={myProfile.phonenumber} name="phonenumber" placeholder='phonenumber' required />
+                <input className='w-100 mb-2 text-base-300' type="text" value={myProfile.phonenumber} name="phonenumber" placeholder='phonenumber' required />
                 <br />
                 <input className='btn btn-primary' type="submit" value="Add" />
                 
             </form>
-            <button className='btn btn-primary px-auto' >Update Profile</button>
+            <button onClick={handleUpdate} className='btn btn-primary px-auto' >Update Profile</button>
         </div>
     );
 };

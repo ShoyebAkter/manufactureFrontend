@@ -19,6 +19,7 @@ import RequireAdmin from './Pages/Shared/RequireAdmin';
 import Blogs from '../src/Pages/Blogs/Blogs'
 import MyPortfolio from './Pages/MyPortfolio/MyPortfolio';
 import NotFound from './Pages/Shared/NotFound';
+import Payment from './Pages/Purchase/Payment';
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
           <Route path='myorders' element={<MyOrders></MyOrders>}></Route>
           <Route path="review" element={<AddReview></AddReview>}></Route>
           <Route path="myprofile" element={<MyProfile></MyProfile>}></Route>
-          {/* <Route path="payment/:id" element={<Payment></Payment>}></Route> */}
+          <Route path="payment/:id" element={<Payment></Payment>}></Route>
           <Route path="orders" element={<RequireAdmin><ManageAllOrders></ManageAllOrders></RequireAdmin>}></Route>
           <Route path="addproduct" element={<RequireAdmin><AddProduct></AddProduct></RequireAdmin>}></Route>
           <Route path="manageproduct" element={<RequireAdmin><ManageProducts></ManageProducts></RequireAdmin>}></Route>

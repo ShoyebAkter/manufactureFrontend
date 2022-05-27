@@ -26,6 +26,7 @@ const AddProduct = () => {
                     name: data.name,
                     minimum_quantity: data.minimum_quantity,
                     quantity: data.quantity,
+                    price:data.price,
                     img: img
                 }
                 // sending in my database 
@@ -116,6 +117,26 @@ const AddProduct = () => {
                     <label className="label">
                         {errors.quantity?.type === 'required' && <span className="label-text-alt text-red-500">{errors.quantity.message}</span>}
                         {errors.quantity?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.quantity.message}</span>}
+                    </label>
+                </div>
+                <div className="mx-auto form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Price</span>
+                    </label>
+                    <input
+                        type="number"
+                        placeholder="Price"
+                        className="input input-bordered w-full max-w-xs"
+                        {...register("price", {
+                            required: {
+                                value: true,
+                                message: 'Price is Required'
+                            }
+                        })}
+                    />
+                    <label className="label">
+                        {errors.price?.type === 'required' && <span className="label-text-alt text-red-500">{errors.price.message}</span>}
+                        {errors.price?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.price.message}</span>}
                     </label>
                 </div>
 

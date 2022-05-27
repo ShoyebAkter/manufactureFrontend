@@ -3,93 +3,136 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
-import axios from 'axios';
-import useServiceDetail from '../Hooks/useServiceDetail';
+
 import { toast } from 'react-toastify';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
+import { useForm } from 'react-hook-form';
 
 const ServiceDetails = () => {
-    const {serviceId}=useParams();
-    const [user]=useAuthState(auth);
-    const[quantity,setQuantity]=useState(0);
+    const { serviceId } = useParams();
+    const [user] = useAuthState(auth);
+    const [purchaseQuantity, setPurchaseQuantity] = useState('');
+    const [btnDisable, setBtnDisable] = useState("");
+    const [error, setError] = useState("");
+    const { register, handleSubmit } = useForm();
 
-    useEffect(()=>{
-        fetch(`http://localhost:5000/service/${serviceId}`)
-        .then(res=>res.json())
-        .then(data=>setQuantity(data.quantity))
-    },[quantity])
 
-    const { data: service, isLoading, refetch } = useQuery('available', () => fetch(`http://localhost:5000/service/${serviceId}`)
+    const { data: service, isLoading, refetch } = useQuery(['order', serviceId], () => fetch(`http://localhost:5000/service/${serviceId}`, {
+        method: 'GET',
+        headers: {
+            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    })
         .then(res => res.json()))
-    
-        if(isLoading){
-            return <Loading></Loading>
-        }
-    const handleSubmit=(event)=>{
-        event.preventDefault();
-        const orderQuantity=parseInt(event.target.orderquantity.value);
-        const minimumQuantity=parseInt(service.minimum_quantity);
-        if(orderQuantity>minimumQuantity){
-            toast.error('cannot oder less than minimum quantity')
-        }
-        let available=parseInt(service.quantity);
-        // console.log(available)
-        const remaining=available-orderQuantity;
-        const updateproduct={remaining};
-        // console.log(service)
-        const order={
-            orderId:serviceId,
-            name:service.name,
-            orderQuantity,
-            email:user.email,
-            userName:user.displayName
-        }
 
-        axios.post('http://localhost:5000/order',order)
-        .then(res=>{
-            const {data}=res;
-            if(data.insertedId){
-                toast('Order done');
-                event.target.reset();
-            }
-        })
-        fetch(`http://localhost:5000/service/${serviceId}`,{
-            method:'PUT',
-            headers:{
-                'content-type':'application/json'
-            },
-            body: JSON.stringify(updateproduct)
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            setQuantity(remaining)
-        })
-        
+    if (isLoading) {
+        return <Loading></Loading>
     }
-    
+    const { name, description, price, quantity, minimum_quantity } = service;
+    let newQuantity;
+
+    const handleButton = event => {
+        setPurchaseQuantity(event.target.value);
+        if (parseInt(purchaseQuantity) >= minimum_quantity && parseInt(purchaseQuantity) <= quantity) {
+            setError('');
+            setBtnDisable(false)
+        } else {
+            setBtnDisable(true);
+            setError("Order quantity is not valid");
+        }
+    }
+
+    const onSubmit = data => {
+        const booking = {
+            name: name,
+            quantity: purchaseQuantity,
+            email: user.email,
+            address: data.address,
+            phone: data.phone
+        }
+        newQuantity = quantity - purchaseQuantity;
+        fetch(`http://localhost:5000/service/${serviceId}`,{
+            method: 'PUT',
+            headers: {
+                'content-type': "application/json",
+                'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({ newQuantity }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount) {
+                    refetch();
+                    fetch('http://localhost:5000/order', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': "application/json",
+                            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(booking),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.acknowledged) {
+                                toast.success("Your order is complete")
+                            }
+                        })
+                }
+                else {
+                    toast.error("Cannot place an order");
+                }
+                data = "";
+            })
+    }
+
 
     return (
-        <div className='w-50 mx-auto'>
-            <h2>Please Order: {service.name}</h2>
-            <form onSubmit={handleSubmit}>
-                <input className='w-100 mb-2' type="text" value={user?.displayName} name="name" placeholder='name' required readOnly disabled/>
-                <br />
-                <input className='w-100 mb-2' type="email" value={user?.email} name="email" placeholder='email' required readOnly disabled />
-                <br />
-                <input className='w-100 mb-2' type="text" value={service.name} name="service" placeholder='service' required readOnly />
-                <br />
-                <input className='w-100 mb-2' type="text" value={service.quantity} name="available" placeholder='available' required readOnly />
-                <br />
-                <input className='w-100 mb-2' type="text" value={service.minimum_quantity} name="minimum_quantity" placeholder='minimum_quantity' required readOnly />
-                <br />
-                <input className='w-100 mb-2' type="text" name="address" placeholder='address' autoComplete='off' required />
-                <br />
-                <input className='w-100 mb-2' type="text" name="phone" placeholder='phone' required />
-                <br />
-                <input className='w-100 mb-2' type="text" name="orderquantity" placeholder='quantity' required />
-                <br />
-                <input className='btn btn-primary' type="submit" value="Place Order" />
+        <div>
+            <h1 className='text-3xl text-center'>Purchase tools</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Quantity</span>
+                    </label>
+                    <input type="number" placeholder='Quantity' onInput={handleButton} onKeyUpCapture={handleButton} onKeyDownCapture={handleButton} class="input input-bordered w-full max-w-xs" />
+                    <span className='text-red-500 text-sm'>{error}</span>
+                    <label className="label">
+                        <span className="label-text">Email</span>
+                    </label>
+                    <input disabled
+                        readOnly
+                        type="email"
+                        placeholder="Your Email"
+                        value={user?.email}
+                        className="input input-bordered w-full max-w-xs"
+                        {...register("email")}
+                    />
+                    <label className="label">
+
+                    </label>
+                </div>
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Address</span>
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Address"
+                        className="input input-bordered w-full max-w-xs"
+                        {...register("address")}
+                    />
+                    <label className="label">
+                        <span className="label-text">Phone</span>
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Phone"
+                        className="input input-bordered w-full max-w-xs"
+                        {...register("phone")}
+                    />
+                </div>
+                <input disabled={btnDisable} className='btn w-full max-w-xs my-5 text-white' type="submit" value="Place Order" />
             </form>
         </div>
     );
