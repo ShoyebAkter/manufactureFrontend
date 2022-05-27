@@ -17,7 +17,9 @@ const OrderRow = ({ order, index, refetch, setDeletingOrder }) => {
                                         <p><span className='text-success'>Paid</span></p>
                                         <p>Transaction id: <span className='text-success'>{transactionId}</span></p>
                                     </div>}
-                <label onClick={() => setDeletingOrder(order)} for="delete-confirm-modal" class="btn btn-xs btn-error">Delete</label>
+                {
+                    !paid && <label onClick={() => setDeletingOrder(order)} for="delete-confirm-modal" class="btn btn-xs btn-error">Delete</label>
+                }
             </td>
         </tr>
     );

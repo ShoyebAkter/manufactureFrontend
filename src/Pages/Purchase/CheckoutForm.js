@@ -11,6 +11,7 @@ const CheckoutForm = ({service}) => {
     const [clientSecret, setClientSecret] = useState('');
 
     const { _id, price, email, name } = service;
+    console.log(service)
 
     useEffect(() => {
         fetch('http://localhost:5000/create-payment-intent', {
@@ -32,7 +33,6 @@ const CheckoutForm = ({service}) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (!stripe || !elements) {
             return;
         }
@@ -77,10 +77,10 @@ const CheckoutForm = ({service}) => {
             
             //store payment on database
             const payment = {
-                appointment: _id,
+                service: _id,
                 transactionId: paymentIntent.id
             }
-            fetch(`https://secret-dusk-46242.herokuapp.com/booking/${_id}`, {
+            fetch(`http://localhost:5000/order/${_id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',
