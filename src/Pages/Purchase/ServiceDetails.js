@@ -45,9 +45,11 @@ const ServiceDetails = () => {
 
     const onSubmit = data => {
         const booking = {
+            userName:user.displayName,
             name: name,
             quantity: purchaseQuantity,
             email: user.email,
+            price:price,
             address: data.address,
             phone: data.phone
         }

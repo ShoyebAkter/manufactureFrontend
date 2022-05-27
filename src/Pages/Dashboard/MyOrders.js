@@ -4,37 +4,27 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router';
 import { signOut } from 'firebase/auth';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import Loading from '../Shared/Loading';
+import DeleteConfirmModal from './DeleteConfirmModal';
+import OrderRow from './OrderRow';
 
 
 const MyOrders = () => {
-    const [orders,setOrders]=useState([]);
+    const [deletingOrder, setDeletingOrder] = useState(null);
     const [user]=useAuthState(auth);
-    const navigate=useNavigate();
 
-    useEffect(()=>{
-        if(user){
-            fetch(`http://localhost:5000/order?email=${user.email}`,{
-                method: 'GET',
-                headers:{
-                    'authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
-            .then(res=>{
-                console.log('res',res);
-                // if(res.status===401 || res.status===403){
-                //     signOut(auth);
-                //     localStorage.removeItem('accessToken');
-                //     navigate('/');
-                // }
-               return res.json();
-            })
-            .then(data=>{
-                setOrders(data);
-            });
+    const { data: orders, isLoading, refetch } = useQuery('orders', () => fetch(`http://localhost:5000/order?email=${user.email}`, {
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
-    },[user])
+    }).then(res => res.json()));
 
-    console.log(orders)
+    if (isLoading) {
+        return <Loading></Loading>
+    }
+
+    
     return (
         <div>
             <h2>My Orders: {orders.length}</h2>
@@ -52,26 +42,27 @@ const MyOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            orders.map((a, index) => <tr key={a._id}>
-                                <th>{index + 1}</th>
-                                <td>{user.displayName}</td>
-                                <td>{a.quantity}</td>
-                                <td>{a.email}</td>
-                                <td>{a.name}</td>
-                                <td>
-                                    {(a.price && !a.paid) && <Link to={`/dashboard/payment/${a._id}`}><button className='btn btn-xs btn-primary'>Pay</button></Link>}
-                                    {(a.price && a.paid) && <div>
-                                        <p><span className='text-success'>Paid</span></p>
-                                        <p>Transaction id: <span className='text-success'>{a.transactionId}</span></p>
-                                    </div>}
-                                </td>
-                            </tr>)
+                            
+                                orders.map((order, index) => <OrderRow
+                                key={order._key}
+                                    order={order}
+                                    index={index}
+                                    refetch={refetch}
+                                    setDeletingOrder={setDeletingOrder}
+                                ></OrderRow>)
+                            
                         }
+                        
 
 
                     </tbody>
                 </table>
             </div>
+            {deletingOrder && <DeleteConfirmModal
+                deletingOrder={deletingOrder}
+                refetch={refetch}
+                setDeletingOrder={setDeletingOrder}
+            ></DeleteConfirmModal>}
         </div>
     );
 };
