@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
 
 const MyProfile = () => {
     const [user]=useAuthState(auth);
-   
+   const navigate =useNavigate();
     
 
     const { data: myProfile, isLoading, refetch } = useQuery('myProfile', () => fetch(`http://localhost:5000/profile?email=${user.email}`, {
@@ -25,10 +26,7 @@ const MyProfile = () => {
     }
 
     const handleUpdate=(event)=>{
-        event.preventDefault();
-
-        event.reset();
-        
+              navigate('/update');
     }
 
 
@@ -56,6 +54,10 @@ const MyProfile = () => {
     return (
         <div>
             <h2>Profile of : {myProfile.userName}</h2>
+            <h2>Email: {myProfile.email}</h2>
+            <h2>Education: {myProfile.education}</h2>
+            <h2>Location: {myProfile.location}</h2>
+            
             <form onSubmit={handleSubmit}>
                 <input className='w-100 mb-2 text-base-300' type="text" value={user?.displayName} name="name" placeholder='name' required readOnly disabled/>
                 <br />

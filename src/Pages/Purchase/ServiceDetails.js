@@ -134,7 +134,7 @@ const ServiceDetails = () => {
                         {...register("phone")}
                     />
                 </div>
-                <input disabled={btnDisable} className='btn w-full max-w-xs my-5 text-white' type="submit" value="Place Order" />
+                <input disabled={btnDisable} className='btn  max-w-xs text-white' type="submit" value="Place Order" />
             </form>
         </div>
     );
