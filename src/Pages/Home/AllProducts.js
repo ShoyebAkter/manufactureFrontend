@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
-import './Services.css'
+import { useNavigate } from 'react-router';
 import Service from './Service';
 
-
-const Services = () => {
+const AllProducts = () => {
     const[services,setServices]=useState([]);
 
     useEffect(()=>{
@@ -12,9 +10,12 @@ const Services = () => {
         .then(res=>res.json())
         .then(data=>setServices(data))
     },[])
-    
+
+    const navigate = useNavigate()
+  const handleBuy = (id) => {
+    navigate(`/service/${id}`);
+  }
     return (
-        
         <div className='mt-28 mb-5'>
             <div className='text-center'>
                 <h3 className='text-primary  text-xl font-bold uppercase'>Our Services</h3>
@@ -23,7 +24,7 @@ const Services = () => {
             
             <div className='wrapper'>
                 {
-                    services.slice(0,3).map(service =>
+                    services.map(service =>
                     <Service
                         key={service._id}
                         service={service}
@@ -32,8 +33,7 @@ const Services = () => {
             </div>
             
         </div>
-        
     );
 };
 
-export default Services;
+export default AllProducts;

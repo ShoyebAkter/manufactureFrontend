@@ -20,6 +20,7 @@ import Blogs from '../src/Pages/Blogs/Blogs'
 import MyPortfolio from './Pages/MyPortfolio/MyPortfolio';
 import NotFound from './Pages/Shared/NotFound';
 import Payment from './Pages/Purchase/Payment';
+import AllProducts from './Pages/Home/AllProducts';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path='/allproducts' element={<AllProducts/>}/>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/portfolio" element={<MyPortfolio />} />
         <Route path="service/:serviceId" element={
