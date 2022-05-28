@@ -18,7 +18,7 @@ const ServiceDetails = () => {
     const { register, handleSubmit } = useForm();
 
 
-    const { data: service, isLoading, refetch } = useQuery(['order', serviceId], () => fetch(`http://localhost:5000/service/${serviceId}`, {
+    const { data: service, isLoading, refetch } = useQuery(['order', serviceId], () => fetch(`https://radiant-stream-55289.herokuapp.com/service/${serviceId}`, {
         method: 'GET',
         headers: {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -47,6 +47,7 @@ const ServiceDetails = () => {
         const booking = {
             userName:user.displayName,
             name: name,
+            status:'',
             quantity: purchaseQuantity,
             email: user.email,
             price:price,
@@ -54,7 +55,7 @@ const ServiceDetails = () => {
             phone: data.phone
         }
         newQuantity = quantity - purchaseQuantity;
-        fetch(`http://localhost:5000/service/${serviceId}`,{
+        fetch(`https://radiant-stream-55289.herokuapp.com/service/${serviceId}`,{
             method: 'PUT',
             headers: {
                 'content-type': "application/json",
@@ -66,7 +67,7 @@ const ServiceDetails = () => {
             .then(data => {
                 if (data.modifiedCount) {
                     refetch();
-                    fetch('http://localhost:5000/order', {
+                    fetch('https://radiant-stream-55289.herokuapp.com/order', {
                         method: 'POST',
                         headers: {
                             'content-type': "application/json",

@@ -28,7 +28,7 @@ const AddReview = () => {
                     img: img
                 }
 
-                fetch('http://localhost:5000/review', {
+                fetch('https://radiant-stream-55289.herokuapp.com/review', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',

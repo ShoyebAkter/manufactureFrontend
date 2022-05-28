@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const AllOrderRow = ({ order, index, refetch, setDeletingOrder }) => {
-    const [shift,setShift]=useState(false);
+    const [status,setStatus]=useState("Pending");
 
+
+    const handleStatus = () => {
+        setStatus("Shipped");
+    }
       
     
     
@@ -17,6 +21,7 @@ const AllOrderRow = ({ order, index, refetch, setDeletingOrder }) => {
                                     {(!order.paid) && <p className='text-primary'>Unpaid</p>}
                                     {(order.paid) && <div>
                                         <p><span className='text-success'>Paid</span></p>
+                                        
                                     </div>}
                                     {
                                         !order.paid && <label onClick={() => setDeletingOrder(order)} for="delete-confirm-modal" class="btn btn-xs btn-error">Delete</label>
@@ -24,8 +29,12 @@ const AllOrderRow = ({ order, index, refetch, setDeletingOrder }) => {
                                 </td>
                                 <td>
                                     {
-                                        !order.shipped && <button className='btn btn-primary'>{shift}</button>
+                                        (!order.paid) && <button className='btn btn-primary' onClick={handleStatus} disabled>{status}</button>
                                     }
+                                    {
+                                        (order.paid) && <button className='btn btn-primary' onClick={handleStatus}>{status}</button>
+                                    }
+                                    
                                 </td>
         </tr>
     );

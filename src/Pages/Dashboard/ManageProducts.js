@@ -8,7 +8,7 @@ import Product from './Product';
 const ManageProducts = () => {
     const [deletingProduct, setDeletingProduct] = useState(null);
 
-    const { data: products, isLoading, refetch } = useQuery('products', () => fetch('http://localhost:5000/service', {
+    const { data: products, isLoading, refetch } = useQuery('products', () => fetch('https://radiant-stream-55289.herokuapp.com/service', {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }

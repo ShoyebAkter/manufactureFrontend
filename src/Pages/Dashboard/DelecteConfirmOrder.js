@@ -8,7 +8,7 @@ const DelecteConfirmOrder = ({deletingOrder, refetch, setDeletingOrder}) => {
 
     const handleDelete=(id)=>{
         console.log(id)
-        fetch(`http://localhost:5000/allorder/${id}`, {
+        fetch(`https://radiant-stream-55289.herokuapp.com/allorder/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

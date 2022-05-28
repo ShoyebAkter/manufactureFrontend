@@ -14,7 +14,7 @@ const MyOrders = () => {
     const [deletingOrder, setDeletingOrder] = useState(null);
     const [user]=useAuthState(auth);
 
-    const { data: orders, isLoading, refetch } = useQuery('orders', () => fetch(`http://localhost:5000/order?email=${user.email}`, {
+    const { data: orders, isLoading, refetch } = useQuery('orders', () => fetch(`https://radiant-stream-55289.herokuapp.com/order?email=${user.email}`, {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }

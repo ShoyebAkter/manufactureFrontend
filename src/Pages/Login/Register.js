@@ -48,7 +48,7 @@ const Register = () => {
                 <form className="form"  onSubmit={handleSubmit(onSubmit)}>
                     <h1 className="form-title">Hello, Friend!</h1>
                     <div>
-                    <input type="text" placeholder="Name" 
+                    <input className='text-neutral' type="text" placeholder="Name" 
                     {...register("name", {
                         required: {
                             value: true,
@@ -61,7 +61,7 @@ const Register = () => {
                             </label>
                     </div>
                     <div>
-                    <input type="email" placeholder="Email" 
+                    <input className='text-neutral' type="email" placeholder="Email" 
                     {...register("email", {
                         required: {
                             value: true,
@@ -79,7 +79,7 @@ const Register = () => {
                             </label>
                     </div>
                     <div>
-                    <input type="password" placeholder="Password" 
+                    <input className='text-neutral' type="password" placeholder="Password" 
                     {...register("password", {
                         required: {
                             value: true,

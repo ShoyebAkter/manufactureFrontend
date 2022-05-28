@@ -49,7 +49,7 @@ const LoginPage = () => {
                     <h1 className="form-title">Welcome Back!</h1>
 
                     <div>
-                    <input type="email" placeholder="email"
+                    <input className='text-neutral' type="email" placeholder="email"
                     {...register("email", {
                         required: {
                             value: true,
@@ -67,7 +67,7 @@ const LoginPage = () => {
                             </label>
                     </div>
                     <div>
-                    <input type="password" placeholder="password" 
+                    <input className='text-neutral' type="password" placeholder="password" 
                      {...register("password", {
                         required: {
                             value: true,

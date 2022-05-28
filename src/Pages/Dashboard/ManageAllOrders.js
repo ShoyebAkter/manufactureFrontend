@@ -13,7 +13,7 @@ const ManageAllOrders = () => {
     const [user]=useAuthState(auth)
     const [pending,setPending]=useState(true);
 
-    const { data: allOrders, isLoading, refetch } = useQuery('allOrders', () => fetch(`http://localhost:5000/allorder`, {
+    const { data: allOrders, isLoading, refetch } = useQuery('allOrders', () => fetch(`https://radiant-stream-55289.herokuapp.com/allorder`, {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }

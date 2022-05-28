@@ -12,10 +12,10 @@ const Home = () => {
     return (
         <div className='px-12'>
             <Banner></Banner>
-            <Video></Video>
             <Services></Services>
             <Business></Business>
             <Work></Work>
+            <Video></Video>
             <Membership></Membership>
             <Reviews></Reviews>
             <Footer></Footer>

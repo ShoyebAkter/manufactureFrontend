@@ -31,7 +31,7 @@ const AddProduct = () => {
                     img: img
                 }
                 // sending in my database 
-                fetch('http://localhost:5000/service', {
+                fetch('https://radiant-stream-55289.herokuapp.com/service', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
