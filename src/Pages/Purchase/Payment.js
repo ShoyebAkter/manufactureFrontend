@@ -11,10 +11,10 @@ import CheckoutForm from './CheckoutForm';
 const stripePromise = loadStripe('pk_test_51L3rUSLdVrNtSjVSK1ig1lHKSDiKNUkJFqm5jdP70THP1XTt4TkGECAlheGBukJUnyIgwiElEuz2dXvmH8bXEpXH00q7UmvRxJ');
 const Payment = () => {
 
-    const { id } = useParams();
-    const url = `http://localhost:5000/order/${id}`;
+    const { serviceId } = useParams();
+    const url = `http://localhost:5000/order/${serviceId}`;
 
-    const { data: service, isLoading } = useQuery(['order', id], () => fetch(url, {
+    const { data: service, isLoading } = useQuery(['order', serviceId], () => fetch(url, {
         method: 'GET',
         headers: {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -30,8 +30,8 @@ const Payment = () => {
             <div class="card w-50 max-w-md bg-base-100 shadow-xl my-12">
                 <div class="card-body">
                     <p className="text-success font-bold">Hello, {service.email}</p>
-                    <h2 class="card-title">Please Pay for {service.service}</h2>
-                    <p>Your Order: <span className='text-orange-700'>{service.quanity}</span></p>
+                    <h2 class="card-title">Please Pay for {service.name}</h2>
+                    <p>Your Order: <span className='text-orange-700'>{service.name}</span></p>
                     <p>Please pay: ${service.price}</p>
                 </div>
             </div>

@@ -22,7 +22,7 @@ const Blogs = () => {
             </div>
             <div className='border my-2'>
                 <h2 className='text-primary font-bold'>Ques: You have an array of products. Each product has a name, price, description, etc. How will you implement a search to find products by name?</h2>
-                <p className='font-bold'>Ans: By using the map function</p>
+                <p className='font-bold'>Ans: By using the filter function</p>
             </div>
         </div>
     );

@@ -25,6 +25,7 @@ const AddProduct = () => {
                 const tools = {
                     name: data.name,
                     minimum_quantity: data.minimum_quantity,
+                    description:data.description,
                     quantity: data.quantity,
                     price:data.price,
                     img: img
@@ -96,6 +97,24 @@ const AddProduct = () => {
                     <label className="label">
                         {errors.minimum_quantity?.type === 'required' && <span className="label-text-alt text-red-500">{errors.minimum_quantity.message}</span>}
                         {errors.minimum_quantity?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.minimum_quantity.message}</span>}
+                    </label>
+                </div>
+                <div className="mx-auto form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Description</span>
+                    </label>
+                    <textarea className="textarea textarea-bordered" placeholder="Description"
+                    {...register("description", {
+                        required: {
+                            value: true,
+                            message: 'Description is Required'
+                        }
+                    })}
+                    ></textarea>
+                    
+                    <label className="label">
+                        {errors.description?.type === 'required' && <span className="label-text-alt text-red-500">{errors.description.message}</span>}
+                        {errors.description?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.description.message}</span>}
                     </label>
                 </div>
 

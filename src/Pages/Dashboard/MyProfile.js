@@ -1,12 +1,18 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
 
 const MyProfile = () => {
-    const [user] = useAuthState(auth)
+    const [user] = useAuthState(auth);
+    const{email}=user;
+    const [updateUser,setUpdateUser]=useState([])
     const { register, handleSubmit,reset } = useForm();
+
+    fetch(`http://localhost:5000/user/${email}`)
+    .then(res=>res.json())
+    .then(data=>setUpdateUser(data));
 
     
     const onSubmit = async data=>{
@@ -73,6 +79,7 @@ const MyProfile = () => {
                         </label>
                         <input
                             type="text"
+                            value={updateUser?.address}
                             placeholder="Your Address"
                             className="input input-bordered w-full max-w-xs"
                             {...register("address")}
@@ -85,6 +92,7 @@ const MyProfile = () => {
                         <input
                             type="text"
                             placeholder="Phone"
+                            value={updateUser.phone}
                             className="input input-bordered w-full max-w-xs"
                             {...register("phone")}
                         />
@@ -97,6 +105,7 @@ const MyProfile = () => {
                         <input
                             type="text"
                             placeholder="Education"
+                            value={updateUser.education}
                             className="input input-bordered w-full max-w-xs"
                             {...register("education")}
                         />

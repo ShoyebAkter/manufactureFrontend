@@ -11,18 +11,22 @@ const Service = ({ service }) => {
   return (
 
     <div class="item">
-        <div>
-        <img src={service.img} alt="Shoes" class="rounded-xl" />
-        </div>
-        <div >
-          <h2 >{service.name}</h2>
-          <p >{service.description}</p>
-          <div>
-            <button class="btn btn-primary" onClick={() => handleBuy(_id)}>Buy Now</button>
+      <div>
+        <div class="card card-compact w-96 bg-white-100 shadow-xl">
+          <figure><img src={service.img} alt="Shoes" /></figure>
+          <div class="card-body">
+            <h2 class="card-title">{service.name}</h2>
+            <p>{service.description}</p>
+            <p>Quantity: {service.quantity}</p>
+            <div class="card-actions justify-center">
+              <button onClick={()=>handleBuy(_id)} class="btn btn-primary">Buy Now</button>
+            </div>
           </div>
         </div>
-      
+      </div>
     </div>
+
+    
 
   );
 };

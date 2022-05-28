@@ -3,11 +3,8 @@ import React, { useState } from 'react';
 const AllOrderRow = ({ order, index, refetch, setDeletingOrder }) => {
     const [shift,setShift]=useState(false);
 
-    const handleStatus=()=>{
-        shift='Pending';
-        order.shipped=true;
-        
-    }
+      
+    
     
     return (
         <tr>

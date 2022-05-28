@@ -80,17 +80,15 @@ const AddReview = () => {
                     <label className="label">
                         <span className="label-text">Description</span>
                     </label>
-                    <input
-                        type="text"
-                        placeholder="Your Description"
-                        className="input input-bordered w-full max-w-xs"
-                        {...register("description", {
-                            required: {
-                                value: true,
-                                message: 'description is Required'
-                            }
-                        })}
-                    />
+                    <textarea className="textarea textarea-bordered" placeholder="Description"
+                    {...register("description", {
+                        required: {
+                            value: true,
+                            message: 'Description is Required'
+                        }
+                    })}
+                    ></textarea>
+                    
                     <label className="label">
                         {errors.description?.type === 'required' && <span className="label-text-alt text-red-500">{errors.description.message}</span>}
                         {errors.description?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.description.message}</span>}
