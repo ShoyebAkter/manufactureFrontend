@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
 import AllOrderRow from './AllOrderRow';
@@ -9,11 +9,11 @@ import DelecteConfirmOrder from './DelecteConfirmOrder';
 
 const ManageAllOrders = () => {
     const [deletingOrder, setDeletingOrder] = useState(null);
+    const { shopId } = useParams();
+    const [shopOrder, setShopOrder] = useState([]);
+    const [orders, setOrders] = useState()
 
-    const [user]=useAuthState(auth)
-    const [pending,setPending]=useState(true);
-
-    const { data: allOrders, isLoading, refetch } = useQuery('allOrders', () => fetch(`https://radiant-stream-55289.herokuapp.com/allorder`, {
+    const { data: allOrders, isLoading, refetch } = useQuery('allOrders', () => fetch(`https://manufacture-backend.onrender.com/allorder`, {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -22,8 +22,8 @@ const ManageAllOrders = () => {
     if (isLoading) {
         return <Loading></Loading>
     }
+    console.log(allOrders)
 
-    
     return (
         <div>
             <h2>Total Orders: {allOrders.length}</h2>
@@ -42,14 +42,23 @@ const ManageAllOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            allOrders.map((order, index) => <AllOrderRow
-                            key={order._key}
-                                    order={order}
-                                    index={index}
-                                    refetch={refetch}
-                                    setDeletingOrder={setDeletingOrder}>
+                            allOrders.map((order, index) => {
+                                order = order.carts.carts.filter(product => product.shopId === shopId)
+                                // console.log(order);
+                                return (
 
-                            </AllOrderRow>)
+                                    <AllOrderRow
+                                        key={order._key}
+                                        order={order}
+                                        shopId={shopId}
+                                        index={index}
+                                        refetch={refetch}
+                                        setDeletingOrder={setDeletingOrder}>
+                                    </AllOrderRow>
+                                )
+                            }
+                            )
+
                         }
 
 

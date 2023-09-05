@@ -4,14 +4,13 @@ import Loading from '../Shared/Loading';
 import Admin from './Admin';
 
 const MakeAdmin = () => {
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://radiant-stream-55289.herokuapp.com/user', {
-        method: 'GET',
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://manufacture-backend.onrender.com/user', {
         headers:{
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
     })
     .then(res => res.json()));
-    // console.log(users)
+    console.log(users)
     if (isLoading) {
         return <Loading></Loading>
     }

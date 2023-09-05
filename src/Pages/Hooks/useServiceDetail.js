@@ -3,7 +3,7 @@ import Loading from '../Shared/Loading';
 
 const useServiceDetail = (serviceID) => {
 
-    const { data: service, isLoading, refetch } = useQuery('available', () => fetch(`https://radiant-stream-55289.herokuapp.com/service/${serviceID}`)
+    const { data: service, isLoading, refetch } = useQuery('available', () => fetch(`https://manufacture-backend.onrender.com/service/${serviceID}`)
         .then(res => res.json()))
 
         if(isLoading){

@@ -12,7 +12,7 @@ const stripePromise = loadStripe('pk_test_51L3rUSLdVrNtSjVSK1ig1lHKSDiKNUkJFqm5j
 const Payment = () => {
 
     const { serviceId } = useParams();
-    const url = `https://radiant-stream-55289.herokuapp.com/order/${serviceId}`;
+    const url = `https://manufacture-backend.onrender.com/order/${serviceId}`;
 
     const { data: service, isLoading } = useQuery(['order', serviceId], () => fetch(url, {
         method: 'GET',

@@ -14,7 +14,7 @@ const CheckoutForm = ({service}) => {
     console.log(service)
 
     useEffect(() => {
-        fetch('https://radiant-stream-55289.herokuapp.com/create-payment-intent', {
+        fetch('https://manufacture-backend.onrender.com/create-payment-intent', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -80,7 +80,7 @@ const CheckoutForm = ({service}) => {
                 service: _id,
                 transactionId: paymentIntent.id
             }
-            fetch(`https://radiant-stream-55289.herokuapp.com/order/${_id}`, {
+            fetch(`https://manufacture-backend.onrender.com/order/${_id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',

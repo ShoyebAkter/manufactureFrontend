@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import './Services.css'
 import Service from './Service';
+import { useLocation } from 'react-router';
 
 
 const Services = () => {
-    const[services,setServices]=useState([]);
-
-    useEffect(()=>{
-        fetch('https://radiant-stream-55289.herokuapp.com/service')
-        .then(res=>res.json())
-        .then(data=>setServices(data))
-    },[])
+    const { state } = useLocation();
+    console.log(state);
+    
     
     return (
         
@@ -23,10 +20,9 @@ const Services = () => {
             
             <div className='wrapper'>
                 {
-                    services.slice(0,3).map(service =>
+                    state.products.map(product =>
                     <Service
-                        key={service._id}
-                        service={service}
+                        service={product}
                     ></Service>)
                 }
             </div>

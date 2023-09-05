@@ -7,7 +7,7 @@ const useAdmin=(user)=>{
     useEffect(()=>{
         const email=user.email;
         if(email){
-            fetch(`https://radiant-stream-55289.herokuapp.com/admin/${email}`,{
+            fetch(`https://manufacture-backend.onrender.com/admin/${email}`,{
                 method:'Get',
                 headers:{
                     'content-type':'application/json',

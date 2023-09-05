@@ -28,7 +28,7 @@ const AddReview = () => {
                     img: img
                 }
 
-                fetch('https://radiant-stream-55289.herokuapp.com/review', {
+                fetch('https://manufacture-backend.onrender.com/review', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',

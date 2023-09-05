@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import auth from '../../firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router';
-import { signOut } from 'firebase/auth';
-import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import OrderRow from './OrderRow';
+import { DeviceUUID } from 'device-uuid';
 
 
 const MyOrders = () => {
     const [deletingOrder, setDeletingOrder] = useState(null);
     const [user]=useAuthState(auth);
-
-    const { data: orders, isLoading, refetch } = useQuery('orders', () => fetch(`https://radiant-stream-55289.herokuapp.com/order?email=${user.email}`, {
-        headers: {
+    const uuid = new DeviceUUID().get();
+    
+    const { data: orders, isLoading, refetch } = useQuery('orders', () => fetch(`https://manufacture-backend.onrender.com/order?userId=${uuid}`, {
+        method: 'GET',    
+    headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
     }).then(res => res.json()));
-
+    // console.log(orders)
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -33,10 +33,9 @@ const MyOrders = () => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Name</th>
-                            <th>orderQuantity</th>
-                            <th>Email</th>
-                            <th>Service</th>
+                            <th>UserId</th>
+                            <th>Orders</th>
+                            <th>Price</th>
                             <th>Action</th>
                         </tr>
                     </thead>

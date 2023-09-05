@@ -9,7 +9,7 @@ const Testomonial = () => {
     const [reviews,setReviews]=useState([]);
 
     useEffect(()=>{
-        fetch('https://radiant-stream-55289.herokuapp.com/allreview')
+        fetch('https://manufacture-backend.onrender.com/allreview')
         .then(res=>res.json())
         .then(data=>setReviews(data))
     },[])

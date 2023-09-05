@@ -10,7 +10,7 @@ const MyProfile = () => {
     const [updateUser,setUpdateUser]=useState([])
     const { register, handleSubmit,reset } = useForm();
 
-    fetch(`https://radiant-stream-55289.herokuapp.com/user/${email}`)
+    fetch(`https://manufacture-backend.onrender.com/user/${email}`)
     .then(res=>res.json())
     .then(data=>setUpdateUser(data));
 
@@ -24,7 +24,7 @@ const MyProfile = () => {
                 linkdein:data?.linkdein
             }
             if (email) {
-                fetch(`https://radiant-stream-55289.herokuapp.com/user/${email}`, {
+                fetch(`https://manufacture-backend.onrender.com/user/${email}`, {
                     method: 'PUT',
                     headers: {
                         'content-type': 'application/json'

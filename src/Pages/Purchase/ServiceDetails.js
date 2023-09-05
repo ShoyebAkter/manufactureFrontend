@@ -18,7 +18,7 @@ const ServiceDetails = () => {
     const { register, handleSubmit } = useForm();
 
 
-    const { data: service, isLoading, refetch } = useQuery(['order', serviceId], () => fetch(`https://radiant-stream-55289.herokuapp.com/service/${serviceId}`, {
+    const { data: service, isLoading, refetch } = useQuery(['order', serviceId], () => fetch(`https://manufacture-backend.onrender.com/service/${serviceId}`, {
         method: 'GET',
         headers: {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -45,17 +45,17 @@ const ServiceDetails = () => {
 
     const onSubmit = data => {
         const booking = {
-            userName:user.displayName,
+            userName: user.displayName,
             name: name,
-            status:'',
+            status: '',
             quantity: purchaseQuantity,
             email: user.email,
-            price:price,
+            price: price,
             address: data.address,
             phone: data.phone
         }
         newQuantity = quantity - purchaseQuantity;
-        fetch(`https://radiant-stream-55289.herokuapp.com/service/${serviceId}`,{
+        fetch(`https://manufacture-backend.onrender.com/service/${serviceId}`, {
             method: 'PUT',
             headers: {
                 'content-type': "application/json",
@@ -67,7 +67,7 @@ const ServiceDetails = () => {
             .then(data => {
                 if (data.modifiedCount) {
                     refetch();
-                    fetch('https://radiant-stream-55289.herokuapp.com/order', {
+                    fetch('https://manufacture-backend.onrender.com/order', {
                         method: 'POST',
                         headers: {
                             'content-type': "application/json",
@@ -91,52 +91,71 @@ const ServiceDetails = () => {
 
 
     return (
-        <div>
+        <div className='p-12 ml-10'>
             <h1 className='text-3xl text-center'>Purchase tools</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-control w-full max-w-xs">
-                    <label className="label">
-                        <span className="label-text">Quantity</span>
-                    </label>
-                    <input type="number" placeholder='Quantity' onInput={handleButton} onKeyUpCapture={handleButton} onKeyDownCapture={handleButton} class="input input-bordered w-full max-w-xs" />
-                    <span className='text-red-500 text-sm'>{error}</span>
-                    <label className="label">
-                        <span className="label-text">Email</span>
-                    </label>
-                    <input disabled
-                        readOnly
-                        type="email"
-                        placeholder="Your Email"
-                        value={user?.email}
-                        className="input input-bordered w-full max-w-xs"
-                        {...register("email")}
-                    />
-                    <label className="label">
 
-                    </label>
+            <div class="hero min-h-screen bg-base-200">
+                <div class="hero-content flex-col lg:flex-row">
+                    <img src={service.img} alt="" class="max-w-sm rounded-lg shadow-2xl" />
+                    <div>
+                    <div className='mx-auto rounded-2xl w-100'>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text">Quantity</span>
+                        </label>
+                        <input type="number" placeholder='Quantity' onInput={handleButton} onKeyUpCapture={handleButton} onKeyDownCapture={handleButton} class="input input-bordered w-full max-w-xs" />
+                        <span className='text-red-500 text-sm'>{error}</span>
+                        <label className="label">
+                            <span className="label-text">Email</span>
+                        </label>
+                        <input disabled
+                            readOnly
+                            type="email"
+                            placeholder="Your Email"
+                            value={user?.email}
+                            className="input input-bordered w-full max-w-xs"
+                            {...register("email")}
+                        />
+                        <label className="label">
+
+                        </label>
+                    </div>
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text">Address</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Address"
+                            className="input input-bordered w-full max-w-xs"
+                            {...register("address")}
+                        />
+                        <label className="label">
+                            <span className="label-text">Phone</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Phone"
+                            className="input input-bordered w-full max-w-xs"
+                            {...register("phone")}
+                        />
+                    </div>
+                    <button className='btn  max-w-xs text-red' >Place Order</button>
+                </form>
+            </div>
+                    </div>
                 </div>
-                <div className="form-control w-full max-w-xs">
-                    <label className="label">
-                        <span className="label-text">Address</span>
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="Address"
-                        className="input input-bordered w-full max-w-xs"
-                        {...register("address")}
-                    />
-                    <label className="label">
-                        <span className="label-text">Phone</span>
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="Phone"
-                        className="input input-bordered w-full max-w-xs"
-                        {...register("phone")}
-                    />
-                </div>
-                <input disabled={btnDisable} className='btn  max-w-xs text-white' type="submit" value="Place Order" />
-            </form>
+            </div>
+
+
+
+
+
+
+
+
+            
         </div>
     );
 };

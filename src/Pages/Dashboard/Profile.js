@@ -7,7 +7,7 @@ const Profile = () => {
     const [profile,setProfile]=useState([])
 
     useEffect(()=>{
-        fetch('https://radiant-stream-55289.herokuapp.com/profile')
+        fetch('https://manufacture-backend.onrender.com/profile')
         .then(res=>res.json())
         .then(data=>setProfile(data))
     },[user])
